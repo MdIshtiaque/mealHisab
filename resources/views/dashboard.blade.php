@@ -224,7 +224,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             ৳{{ number_format($member->expenses_added, 2) }}
                                         </td>
-                                        @if (Auth::check() && Auth::user()->id === $member->id)
+                                        @if (Auth::check() && Auth::user()->id == $member->id)
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($member->balance >= 0)
                                                     <span
