@@ -15,13 +15,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="MealMgr">
 
-    <link rel="manifest" href="{{ asset('/build/manifest.webmanifest') }}">
-    <link rel="apple-touch-icon" href="{{ asset('icons/icon-192x192.png') }}">
+    <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="mask-icon" href="{{ asset('build/icons/icon-192x192.png') }}" color="#4f46e5">
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    {{-- <link rel="icon" type="image/png" href="{{ asset('build/favicon-96x96.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('build/favicon.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('build/favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('build/apple-touch-icon.png') }}" /> --}}
     <meta name="apple-mobile-web-app-title" content="MealMgr" />
 
     <link rel="stylesheet" href="{{ asset('build/assets/app-aa06debb.css') }}">
@@ -34,24 +35,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <!-- PWA Icons -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="icon" type="image/png" href="{{ asset('icons/icon-96x96.png') }}" sizes="96x96">
-    <link rel="icon" type="image/png" href="{{ asset('icons/icon-192x192.png') }}" sizes="192x192">
-    <link rel="apple-touch-icon" href="{{ asset('icons/icon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('icons/icon-152x152.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/icon-180x180.png') }}">
-    <link rel="apple-touch-icon" sizes="167x167" href="{{ asset('icons/icon-167x167.png') }}">
-
-    <!-- PWA manifest -->
-    <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}">
-
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="MealMgr">
 </head>
 
 <body class="font-sans antialiased">
