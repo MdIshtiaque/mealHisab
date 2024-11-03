@@ -187,7 +187,14 @@ class DashboardController extends Controller
             ->orderBy('date', 'desc')
             ->get();
 
-
+        // Get meal data for the current month
+        $monthlyMealData = Meal::with('user')
+            ->whereYear('date', now()->year)
+            ->whereMonth('date', now()->month)
+            ->get()
+            ->groupBy(function ($meal) {
+                return $meal->date->format('Y-m-d');
+            });
 
         return view('dashboard', compact(
             'totalUsers',
@@ -202,7 +209,22 @@ class DashboardController extends Controller
             'monthlyStats',
             'expenseCategories',
             'dailyMealTrends',
-            'users'
+            'users',
+            'monthlyMealData'
         ));
+    }
+
+    // Add this new method for API calls
+    public function getMealsByMonth($year, $month)
+    {
+        $meals = Meal::with('user')
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get()
+            ->groupBy(function ($meal) {
+                return $meal->date->format('Y-m-d');
+            });
+
+        return response()->json($meals);
     }
 }

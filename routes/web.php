@@ -22,3 +22,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/meals/history', [MealController::class, 'updateHistory'])->name('meals.history');
     Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
 });
+
+Route::get('/api/meals/{year}/{month}', [DashboardController::class, 'getMealsByMonth'])
+    ->name('meals.by.month');

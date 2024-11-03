@@ -224,7 +224,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             ৳{{ number_format($member->expenses_added, 2) }}
                                         </td>
-                                        @if (Auth::check() && Auth::id() === $member->id)
+                                        @if (Auth::check() && Auth::user()->id === $member->id)
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($member->balance >= 0)
                                                     <span
@@ -456,6 +456,140 @@
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <!-- Calendar Section -->
+                <section class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-8">
+                    <!-- Calendar Header -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 sm:mb-0">Meal Calendar</h2>
+                        <div class="flex items-center space-x-4">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <span class="text-lg font-medium text-gray-700">{{ now()->format('F Y') }}</span>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
+                                        <th class="px-2 py-4 text-sm font-semibold text-gray-500 border-b border-gray-200">
+                                            {{ $day }}
+                                        </th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $startOfMonth = Carbon\Carbon::now()->startOfMonth();
+                                    $endOfMonth = Carbon\Carbon::now()->endOfMonth();
+                                    $startingDay = $startOfMonth->dayOfWeek;
+                                    $daysInMonth = $startOfMonth->daysInMonth;
+                                    $currentDay = 1;
+                                    $totalWeeks = ceil(($daysInMonth + $startingDay) / 7);
+                                @endphp
+
+                                @for ($week = 0; $week < $totalWeeks; $week++)
+                                    <tr>
+                                        @for ($dayOfWeek = 0; $dayOfWeek < 7; $dayOfWeek++)
+                                            @php
+                                                $isValidDay =
+                                                    $week * 7 + $dayOfWeek >= $startingDay &&
+                                                    $currentDay <= $daysInMonth;
+                                                if ($isValidDay) {
+                                                    $currentDate = sprintf(
+                                                        '%s-%02d',
+                                                        $startOfMonth->format('Y-m'),
+                                                        $currentDay,
+                                                    );
+                                                    $dayMeals = $monthlyMealData[$currentDate] ?? [];
+                                                    $totalMeals = collect($dayMeals)->sum('meal_count');
+                                                    $isToday =
+                                                        $currentDay == now()->day &&
+                                                        $startOfMonth->month == now()->month;
+                                                }
+                                            @endphp
+
+                                            <td
+                                                class="relative p-3 border border-gray-100 transition-all duration-200
+                                                {{ $isValidDay ? ($isToday ? 'bg-primary-50' : 'hover:bg-gray-50') : 'bg-gray-50/50' }}">
+                                                @if ($isValidDay)
+                                                    <!-- Date number -->
+                                                    <div class="flex items-center justify-between mb-3">
+                                                        <span
+                                                            class="{{ $isToday ? 'bg-primary-600 text-white' : 'text-gray-700' }}
+                                                            w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
+                                                            {{ $currentDay }}
+                                                        </span>
+                                                        @if (isset($totalMeals) && $totalMeals > 0)
+                                                            <span
+                                                                class="px-2 py-1 bg-primary-100 text-primary-700 text-xs font-medium rounded-full">
+                                                                {{ $totalMeals }} meals
+                                                            </span>
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Meal entries -->
+                                                    <div
+                                                        class="space-y-2 overflow-y-auto max-h-24 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-50">
+                                                        @foreach ($dayMeals as $meal)
+                                                            <div
+                                                                class="flex items-center gap-2 p-1.5 rounded-lg bg-white shadow-sm border border-gray-100">
+                                                                <span
+                                                                    class="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-medium"
+                                                                    style="background-color: {{ '#' . substr(md5($meal->user->name), 0, 6) }};">
+                                                                    {{ strtoupper(substr($meal->user->name, 0, 1)) }}
+                                                                </span>
+                                                                <span class="text-xs text-gray-600 font-medium">
+                                                                    {{ $meal->meal_count }}
+                                                                    meal{{ $meal->meal_count != 1 ? 's' : '' }}
+                                                                </span>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+
+                                                    @php
+                                                        $currentDay++;
+                                                    @endphp
+                                                @endif
+                                            </td>
+                                        @endfor
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Legend -->
+                    {{-- <div class="mt-6 flex flex-wrap items-center gap-6 text-sm text-gray-600">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-primary-50 border border-primary-100 rounded"></div>
+                            <span>Today</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-primary-100 rounded"></div>
+                            <span>Has Meals</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-gray-50 border border-gray-100 rounded"></div>
+                            <span>No Meals</span>
+                        </div>
+                    </div> --}}
                 </section>
             </div>
         </div>
