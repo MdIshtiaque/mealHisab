@@ -14,26 +14,26 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Emon',
                 'email' => 'ishtiaqueferdous109@gmail.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password123'),
             ],
             [
                 'name' => 'kousik',
-                'email' => 'kousik@example.com',
+                'email' => 'iftakharul183@gmail.com',
                 'password' => Hash::make('password'),
             ],
             [
-                'name' => 'Mike Johnson',
-                'email' => 'mike@example.com',
+                'name' => 'Himel',
+                'email' => 'hashinurislam825@gmail.com',
                 'password' => Hash::make('password'),
             ],
             [
-                'name' => 'Sarah Wilson',
-                'email' => 'sarah@example.com',
+                'name' => 'Fahm',
+                'email' => 'fahm@example.com',
                 'password' => Hash::make('password'),
             ],
             [
-                'name' => 'Alex Brown',
-                'email' => 'alex@example.com',
+                'name' => 'Suvro',
+                'email' => 'shuvroshariar8@gmail.com',
                 'password' => Hash::make('password'),
             ],
         ];
