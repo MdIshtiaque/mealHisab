@@ -448,6 +448,7 @@
                                         <div>
                                             <p class="font-medium">৳{{ number_format($expense->amount, 2) }}</p>
                                             <p class="text-sm text-gray-500">{{ $expense->description }}</p>
+                                            <p class="text-xs text-gray-400">Added by {{ $expense->user->name }}</p>
                                         </div>
                                         <p class="text-sm text-gray-500">{{ $expense->date->format('M d, Y') }}</p>
                                     </div>
