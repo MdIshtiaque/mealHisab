@@ -24,9 +24,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="MealMgr" />
 
-    <link href="{{ asset('build/assets/app-aa06debb.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-aa06debb.css') }}">
 
-    <script src="{{ asset('build/assets/app-4db4c63a.js') }}"></script>
+    <script src="{{ asset('build/assets/app-4db4c63a.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
